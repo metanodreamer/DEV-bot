@@ -57,14 +57,6 @@ async function handleInteractionCommands(
   const { commandName } = interaction;
 
   if (commandName === "ping") {
-    logger.debug(
-      {
-        command: commandName,
-        user: interaction.user.tag,
-        guild: interaction.guild?.id,
-      },
-      "Ping command executed",
-    );
     await interaction.reply("Pong!");
   }
 }
@@ -106,6 +98,7 @@ async function main(): Promise<void> {
           (data) => "name" in data && data.name === command.name,
         ),
     );
+
     for (const command of commandsToDelete) {
       await rest.delete(Routes.applicationCommand(client.user.id, command.id));
       logger.info("Deleted unused command", { command: command.name });

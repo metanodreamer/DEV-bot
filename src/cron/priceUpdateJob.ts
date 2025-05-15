@@ -21,16 +21,18 @@ async function updateDevActivity(client: Client) {
       logger.info(
         `[CronJob-DevPrice] Scout Protocol Token price updated: $${price}`,
       );
-      
+
       if (client.user) {
         try {
           const title = `DEV $${price.toFixed(5)}`;
           const changeEmoji = change24h >= 0 ? "📈" : "📉";
-          const description = `24h: ${changeEmoji}${change24h.toFixed(2)}% | Vol: $${formatNumber(volume24h)}`;
+          const description = `24h: ${changeEmoji}${change24h.toFixed(2)}% || Vol: $${formatNumber(volume24h)}`;
+
           client.user.setActivity(title, {
             type: ActivityType.Watching,
             state: description,
           });
+
           logger.info(
             `[CronJob-DevPrice] Bot activity updated - Description: ${description}`,
           );
@@ -63,8 +65,8 @@ async function updateDevActivity(client: Client) {
  * @param client The Discord Client instance
  */
 export function startDevPriceUpdateJob(client: Client) {
-  // Activity/description update every 5 minutes
-  const activityCron = "0 */5 * * * *";
+  // Activity/description update every 8 minutes
+  const activityCron = "0 */8 * * * *";
   const timezone = "UTC";
 
   try {
@@ -78,7 +80,7 @@ export function startDevPriceUpdateJob(client: Client) {
         { timezone },
       );
       logger.info(
-        `[CronJob-DevPrice] Activity update scheduled every 5 minutes (${timezone}).`,
+        `[CronJob-DevPrice] Activity update scheduled every 8 minutes (${timezone}).`,
       );
       // Initial run
       updateDevActivity(client);

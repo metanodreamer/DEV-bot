@@ -17,9 +17,11 @@ async function updateDevActivity(client: Client) {
       const volume24h = tokenData.usd_24h_vol || 0;
       const change24h = tokenData.usd_24h_change || 0;
       latestDevPrice = price;
+
       logger.info(
         `[CronJob-DevPrice] Scout Protocol Token price updated: $${price}`,
       );
+      
       if (client.user) {
         try {
           const title = `DEV $${price.toFixed(5)}`;
@@ -57,40 +59,12 @@ async function updateDevActivity(client: Client) {
 }
 
 /**
- * Updates the bot's username every hour (rate limit safe).
- */
-async function updateDevUsername(client: Client) {
-  try {
-    const tokenData = await fetchTokenPrice("scout-protocol-token");
-    if (tokenData && client.user) {
-      const price = tokenData.usd;
-      const newUsername = `DEV: $${price.toFixed(5)}`;
-      if (client.user.username !== newUsername) {
-        await client.user.setUsername(newUsername);
-        logger.info(
-          `[CronJob-DevPrice] Bot username updated to: ${newUsername}`,
-        );
-      } else {
-        logger.info("[CronJob-DevPrice] Username already up-to-date.");
-      }
-    }
-  } catch (error) {
-    logger.error("[CronJob-DevPrice] Error updating bot username", {
-      errorMessage: error instanceof Error ? error.message : "Unknown error",
-      errorStack: error instanceof Error ? error.stack : undefined,
-    });
-  }
-}
-
-/**
  * Initializes and starts the cron jobs for updating the bot's username and activity.
  * @param client The Discord Client instance
  */
 export function startDevPriceUpdateJob(client: Client) {
   // Activity/description update every 5 minutes
   const activityCron = "0 */5 * * * *";
-  // Username update every hour
-  const usernameCron = "0 0 * * * *";
   const timezone = "UTC";
 
   try {
@@ -111,25 +85,6 @@ export function startDevPriceUpdateJob(client: Client) {
     } else {
       logger.error(
         `[CronJob-DevPrice] Invalid cron expression for activity update: ${activityCron}`,
-      );
-    }
-    if (cron.validate(usernameCron)) {
-      cron.schedule(
-        usernameCron,
-        () => {
-          logger.info("[CronJob-DevPrice] Username cron triggered.");
-          updateDevUsername(client);
-        },
-        { timezone },
-      );
-      logger.info(
-        `[CronJob-DevPrice] Username update scheduled every hour (${timezone}).`,
-      );
-      // Initial run
-      updateDevUsername(client);
-    } else {
-      logger.error(
-        `[CronJob-DevPrice] Invalid cron expression for username update: ${usernameCron}`,
       );
     }
   } catch (error) {

@@ -51,3 +51,10 @@ With the bot running and invited to a server:
 3.  Commit your changes (`git commit -m 'Add some AmazingFeature'`).
 4.  Push to the branch (`git push origin feature/AmazingFeature`).
 5.  Open a Pull Request.
+
+## TODO
+
+- Implement the `/price` command: Display current DEV token price and a Uniswap link.
+- Implement the `/volume` command: Display 24-hour trading volume for DEV token.
+- Implement the `/linkwallet [wallet_address]` command: Allow users to link their wallets.
+- Implement the `/balance` command: Show DEV token balance and USD value for linked wallets.

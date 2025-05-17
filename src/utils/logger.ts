@@ -1,32 +1,32 @@
-import pino from 'pino';
+import pino from "pino";
 
-const { NODE_ENV, BETTERSTACK_SOURCE_TOKEN, PINO_LOG_LEVEL } = process.env;
+const { NODE_ENV, BETTERSTACK_TOKEN, PINO_LOG_LEVEL } = process.env;
 
 let transport;
 
-if (NODE_ENV === 'development') {
+if (NODE_ENV === "development") {
   transport = pino.transport({
-    target: 'pino-pretty',
+    target: "pino-pretty",
     options: {
       colorize: true,
       levelFirst: true,
-      translateTime: 'SYS:standard',
+      translateTime: "SYS:standard",
     },
   });
-} else if (BETTERSTACK_SOURCE_TOKEN) {
+} else if (BETTERSTACK_TOKEN) {
   transport = pino.transport({
     targets: [
       {
-        target: '@logtail/pino',
-        options: { sourceToken: BETTERSTACK_SOURCE_TOKEN },
-        level: PINO_LOG_LEVEL || 'info',
+        target: "@logtail/pino",
+        options: { sourceToken: BETTERSTACK_TOKEN },
+        level: PINO_LOG_LEVEL || "info",
       },
       {
-        target: 'pino/file', // stdout
+        target: "pino/file", // stdout
         options: { destination: 1 }, // 1 = stdout
-        level: PINO_LOG_LEVEL || 'info',
-      }
-    ]
+        level: PINO_LOG_LEVEL || "info",
+      },
+    ],
   });
 } else {
   // Default to stdout if no BetterStack token and not in development
@@ -35,7 +35,7 @@ if (NODE_ENV === 'development') {
 
 const logger = pino(
   {
-    level: PINO_LOG_LEVEL || (NODE_ENV === 'development' ? 'debug' : 'info'),
+    level: PINO_LOG_LEVEL || (NODE_ENV === "development" ? "debug" : "info"),
     formatters: {
       level: (label) => {
         return { level: label.toUpperCase() };
@@ -43,7 +43,7 @@ const logger = pino(
     },
     timestamp: pino.stdTimeFunctions.isoTime,
   },
-  transport
+  transport,
 );
 
-export default logger; 
+export default logger;

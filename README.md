@@ -10,9 +10,7 @@
 3.  Create a `.env` file in the root and add your environment variables:
     ```env
     DISCORD_TOKEN=YOUR_DISCORD_BOT_TOKEN
-    BOT_PREFIX=!
     ```
-    (`BOT_PREFIX` defaults to `!` if not set).
 
 ## Development
 

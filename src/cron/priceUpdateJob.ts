@@ -96,11 +96,3 @@ export function startDevPriceUpdateJob(client: Client) {
     });
   }
 }
-
-/**
- * Retrieves the latest Scout Protocol Token price fetched by the cron job.
- * @returns The latest price as a number, or null if no price has been fetched yet or an error occurred.
- */
-export function getLatestDevPrice(): number | null {
-  return latestDevPrice;
-}

@@ -1,5 +1,13 @@
 # DEV-bot
 
+**Invite the Bot to Your Server:**  
+https://discord.com/oauth2/authorize?client_id=932286642209833021  
+*Add the DEV-bot to your Discord server.*
+
+**Uniswap DEV Token Page:**  
+https://app.uniswap.org/explore/tokens/base/0x047157cffb8841a64db93fd4e29fa3796b78466c  
+*Buy DEV tokens here.*
+
 ## Setup
 
 1.  Clone the repository.

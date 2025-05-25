@@ -1,12 +1,13 @@
 # DEV-bot
 
-**Invite the Bot to Your Server:**  
-https://discord.com/oauth2/authorize?client_id=932286642209833021  
-*Add the DEV-bot to your Discord server.*
-
-**Uniswap DEV Token Page:**  
-https://app.uniswap.org/explore/tokens/base/0x047157cffb8841a64db93fd4e29fa3796b78466c  
-*Buy DEV tokens here.*
+<div style="display: flex; gap: 10px;">
+  <a href="https://discord.com/oauth2/authorize?client_id=1210908193337970739">
+    <img src="https://img.shields.io/badge/Discord-Invite%20to%20Server-5865F2?logo=discord&logoColor=white" alt="Discord">
+  </a>
+  <a href="https://app.uniswap.org/explore/tokens/base/0x047157CfFB8841A64DB93fd4E29fA3796B78466c">
+    <img src="https://img.shields.io/badge/Uniswap-Buy%20on%20Uniswap-ff007a?logo=uniswap&logoColor=white" alt="Uniswap">
+  </a>
+</div>
 
 ## Setup
 

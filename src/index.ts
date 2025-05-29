@@ -11,6 +11,7 @@ import {
 } from "discord.js";
 import logger from "./utils/logger";
 import { startDevPriceUpdateJob } from "./cron/priceUpdateJob";
+import { fetchTokenPrice } from "./utils/coinGecko";
 
 const token: string | undefined = process.env.DISCORD_TOKEN;
 
@@ -31,6 +32,10 @@ const commandsData: ApplicationCommandDataResolvable[] = [
   new SlashCommandBuilder()
     .setName("ping")
     .setDescription("Replies with Pong!")
+    .toJSON(),
+  new SlashCommandBuilder()
+    .setName("price")
+    .setDescription("Fetches and displays the current DEV token price.")
     .toJSON(),
 ];
 
@@ -58,6 +63,17 @@ async function handleInteractionCommands(
 
   if (commandName === "ping") {
     await interaction.reply("Pong!");
+  }
+  else if (commandName === "price") {    
+    const tokenData = await fetchTokenPrice("scout-protocol-token");
+
+    if (tokenData) {
+      const price = tokenData.usd;
+      const replyMessage = `**DEV Token Price:** $${price.toFixed(5)}\n`;                           
+      await interaction.reply(replyMessage);
+    } else {
+      await interaction.reply("Sorry, I couldn't fetch the price right now. Please try again later.");
+    }
   }
 }
 

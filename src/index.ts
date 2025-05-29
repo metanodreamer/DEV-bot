@@ -12,6 +12,7 @@ import {
 import logger from "./utils/logger";
 import { startDevPriceUpdateJob } from "./cron/priceUpdateJob";
 import { fetchTokenPrice } from "./utils/coinGecko";
+import { UNISWAP_LINK } from "./utils/constants";
 
 const token: string | undefined = process.env.DISCORD_TOKEN;
 
@@ -37,6 +38,11 @@ const commandsData: ApplicationCommandDataResolvable[] = [
     .setName("price")
     .setDescription("Fetches and displays the current DEV token price.")
     .toJSON(),
+  new SlashCommandBuilder()
+    .setName("uniswap")
+    .setDescription("Returns the Uniswap link for the token.")
+    .toJSON(),
+
 ];
 
 async function createDiscordServer(): Promise<Client> {
@@ -74,6 +80,9 @@ async function handleInteractionCommands(
     } else {
       await interaction.reply("Sorry, I couldn't fetch the price right now. Please try again later.");
     }
+  }
+  else if (commandName === "uniswap") {
+    await interaction.reply(UNISWAP_LINK);
   }
 }
 

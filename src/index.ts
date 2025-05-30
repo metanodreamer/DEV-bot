@@ -46,6 +46,10 @@ const commandsData: ApplicationCommandDataResolvable[] = [
     .setName("price-change")
     .setDescription("Returns the price change over the last 24 hours of the DEV token.")
     .toJSON(),
+  new SlashCommandBuilder()
+    .setName("volume")
+    .setDescription("Returns the 24h volume of the token.")
+    .toJSON(),
 ];
 
 async function createDiscordServer(): Promise<Client> {
@@ -77,23 +81,32 @@ async function handleInteractionCommands(
     const tokenData = await fetchTokenPrice("scout-protocol-token");
 
     if (tokenData) {
-      const price = tokenData.usd;
-      const replyMessage = `**DEV Token Price:** $${price.toFixed(5)}\n`;                           
+      const replyMessage = `**DEV Token Price:** $${tokenData.usd.toFixed(5)}\n`;                           
       await interaction.reply(replyMessage);
     } else {
       await interaction.reply("Sorry, I couldn't fetch the price right now. Please try again later.");
     }
-  }
-  else if (commandName === "uniswap") {
+  } else if (commandName === "uniswap") {
     await interaction.reply(UNISWAP_LINK);
-  }
-  else if (commandName === "price-change") {
+    
+  } else if (commandName === "volume") {
+    const tokenData = await fetchTokenPrice("scout-protocol-token");
+    if (tokenData) {
+    const replyMessage = `**DEV Token 24h Volume:** $${tokenData.usd_24h_vol?.toFixed(2)}`;
+    await interaction.reply(replyMessage);
+    } else {
+      await interaction.reply("Sorry, I couldn't fetch the volume right now. Please try again later.");
+    }
+
+  } else if (commandName === "price-change") {
     const tokenData = await fetchTokenPrice("scout-protocol-token");
     if (tokenData) {
       const change24h = tokenData.usd_24h_change;
       const changeEmoji = change24h! >= 0 ? "📈" : "📉";
       const replyMessage = `**DEV Token 24h Price Change:** ${changeEmoji}${change24h?.toFixed(2)}%`;
       await interaction.reply(replyMessage);
+    } else {
+      await interaction.reply("Sorry, I couldn't fetch the price change right now. Please try again later.");
     }
   }
 }

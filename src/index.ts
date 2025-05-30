@@ -42,7 +42,10 @@ const commandsData: ApplicationCommandDataResolvable[] = [
     .setName("uniswap")
     .setDescription("Returns the Uniswap link for the token.")
     .toJSON(),
-
+  new SlashCommandBuilder()
+    .setName("price-change")
+    .setDescription("Returns the price change over the last 24 hours of the DEV token.")
+    .toJSON(),
 ];
 
 async function createDiscordServer(): Promise<Client> {
@@ -83,6 +86,15 @@ async function handleInteractionCommands(
   }
   else if (commandName === "uniswap") {
     await interaction.reply(UNISWAP_LINK);
+  }
+  else if (commandName === "price-change") {
+    const tokenData = await fetchTokenPrice("scout-protocol-token");
+    if (tokenData) {
+      const change24h = tokenData.usd_24h_change;
+      const changeEmoji = change24h! >= 0 ? "📈" : "📉";
+      const replyMessage = `**DEV Token 24h Price Change:** ${changeEmoji}${change24h?.toFixed(2)}%`;
+      await interaction.reply(replyMessage);
+    }
   }
 }
 
